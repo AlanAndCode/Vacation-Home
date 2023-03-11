@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,25 +14,35 @@
         android:theme="@style/Theme.VacationHome"
         tools:targetApi="31">
         <activity
-            android:name=".activity.auth.CCActivity"
+            android:name=".MyAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MenuMyAdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FilterActivity"
             android:exported="false" />
         <activity
             android:name=".activity.auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.auth.ForgotPassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.auth.CCActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FormAnuncioActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
