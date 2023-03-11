@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:id="@+id/menu_filter"
+    android:title="Filter"/>
+
+    <item android:id="@+id/menu_my_ad"
+        android:title="My Ads" />
+
+    <item android:id="@+id/menu_my_account"
+        android:title="My Account" />
+
+</menu>
