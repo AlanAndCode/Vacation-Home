@@ -15,16 +15,18 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vacationhome.R;
 import com.example.vacationhome.helper.FirebaseHelper;
-import com.example.vacationhome.model.Anuncio;
+import com.example.vacationhome.model.Ad;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.normal.TedPermission;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,11 +41,13 @@ public class FormAdActivity extends AppCompatActivity {
     private EditText edit_garage;
     private CheckBox edit_check;
 
+    private ProgressBar progressBar;
+
     private ImageView edit_image;
     private String caminhoImagem;
     private Bitmap imagem;
 
-    private Anuncio anuncio;
+    private Ad ad;
 
 
      @Override
@@ -51,9 +55,25 @@ public class FormAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_ad);
 
-        iniciaComponentes();
+         iniciaComponentes();
 
-        configCliques();
+         Bundle bundle = getIntent().getExtras();
+         if(bundle != null){
+             ad = (Ad) bundle.getSerializable("Ad");
+             configDados();
+         }
+
+         configCliques();
+    }
+
+    private void configDados(){
+        Picasso.get().load(ad.getUrlImage()).into(edit_image);
+        edit_title.setText(ad.getTitle());
+        edit_description.setText(ad.getDescription());
+        edit_Bedrooms.setText(ad.getBedrooms());
+        edit_Bathroom.setText(ad.getBathroom());
+        edit_garage.setText(ad.getGarage());
+        edit_check.setChecked(ad.isStatus());
     }
 
     private void configCliques(){
@@ -93,23 +113,29 @@ public class FormAdActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_GALLERIA);
     }
 
-    private void SaveImage(){
+    private void saveImage(){
+
+         progressBar.setVisibility(View.VISIBLE);
+
         StorageReference storageReference = FirebaseHelper.getStorageReference()
                 .child("imagens")
                 .child("anuncios")
-                .child(anuncio.getId() + ".jpeg");
+                .child(ad.getId() + ".jpeg");
 
         UploadTask uploadTask = storageReference.putFile(Uri.parse(caminhoImagem));
         uploadTask.addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnCompleteListener(task -> {
 
-            String urlImagem = task.getResult().toString();
+            String urlImage = task.getResult().toString();
 
-           anuncio.setUrlImage(task.getResult().toString());
-            anuncio.SaveAD();
+           ad.setUrlImage(task.getResult().toString());
+            ad.saveAD();
 
             finish();
 
-        })).addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
+        })).addOnFailureListener(e -> {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
 
     }
     private void validaDados(){
@@ -129,19 +155,24 @@ public class FormAdActivity extends AppCompatActivity {
 
 
 
-                       if(anuncio == null) anuncio = new Anuncio();
-                        anuncio.setTitle(title);
-                        anuncio.setDescription(description);
-                        anuncio.setBedrooms(Bedrooms);
-                        anuncio.setBathroom(Bathroom);
-                        anuncio.setGarage(garage);
-                        anuncio.setStatus(edit_check.isChecked());
 
-                        if(caminhoImagem == null){
-                            Toast.makeText(this, "Select any Image", Toast.LENGTH_SHORT).show();
 
+                       if(ad == null) ad = new Ad();
+                        ad.setTitle(title);
+                        ad.setDescription(description);
+                        ad.setBedrooms(Bedrooms);
+                        ad.setBathroom(Bathroom);
+                        ad.setGarage(garage);
+                        ad.setStatus(edit_check.isChecked());
+
+                        if(caminhoImagem != null) {
+                        saveImage();
                         }else{
-                            SaveImage();
+                            if(ad.getUrlImage() != null){
+                                ad.saveAD();
+                            }else {
+                                Toast.makeText(this, "Select any Image", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                 } else {
@@ -176,6 +207,8 @@ public class FormAdActivity extends AppCompatActivity {
         edit_garage = findViewById(R.id.edit_Garage);
         edit_check = findViewById(R.id.edit_check);
         edit_image = findViewById(R.id.edit_image);
+        progressBar = findViewById(R.id.progressBar);
+
         TextView text_title = findViewById(R.id.text_title);
         text_title.setText("Create your ad");
 
