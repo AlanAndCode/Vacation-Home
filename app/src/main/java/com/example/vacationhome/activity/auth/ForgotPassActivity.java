@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.vacationhome.R;
 import com.example.vacationhome.helper.FirebaseHelper;
-import com.example.vacationhome.model.Usuario;
+import com.example.vacationhome.model.User;
 
 public class ForgotPassActivity extends AppCompatActivity {
 private EditText edit_email;
@@ -30,8 +30,8 @@ private EditText edit_email;
             if (!email.isEmpty()) {
 
                         progressBar.setVisibility(View.VISIBLE);
-                        Usuario usuario = new Usuario();
-                        usuario.setEmail(email);
+                        User user = new User();
+                        user.setEmail(email);
 
                 recuperarSenha(email);
 

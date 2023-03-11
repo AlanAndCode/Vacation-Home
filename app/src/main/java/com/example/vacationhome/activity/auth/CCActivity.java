@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.example.vacationhome.R;
 import com.example.vacationhome.activity.MainActivity;
 import com.example.vacationhome.helper.FirebaseHelper;
-import com.example.vacationhome.model.Usuario;
+import com.example.vacationhome.model.User;
 
 public class CCActivity extends AppCompatActivity {
 private EditText edit_nome;
@@ -45,15 +45,15 @@ private ProgressBar progressBar;
                 if (!phone.isEmpty()) {
                     if (!pass.isEmpty()) {
                         progressBar.setVisibility(View.VISIBLE);
-                        Usuario usuario = new Usuario();
-                        usuario.setNome(nome);
-                        usuario.setEmail(email);
-                        usuario.setPass(pass);
-                        usuario.setPhone(phone);
+                        User user = new User();
+                        user.setNome(nome);
+                        user.setEmail(email);
+                        user.setPass(pass);
+                        user.setPhone(phone);
 
 
 
-                        registerUsuario(usuario);
+                        registerUsuario(user);
 
 
                     } else {
@@ -75,17 +75,17 @@ private ProgressBar progressBar;
 
     }
 
-private void registerUsuario(Usuario usuario){
+private void registerUsuario(User user){
     FirebaseHelper.getAuth().createUserWithEmailAndPassword(
-            usuario.getEmail(), usuario.getPass()
+            user.getEmail(), user.getPass()
     ).addOnCompleteListener(task -> {
 
         if(task.isSuccessful()){
 
             String idUser = task.getResult().getUser().getUid();
-            usuario.setId(idUser);
+            user.setId(idUser);
 
-            usuario.save();
+            user.save();
 
             finish();
             startActivity(new Intent(this, MainActivity.class));

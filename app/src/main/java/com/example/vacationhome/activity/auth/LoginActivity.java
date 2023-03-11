@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.example.vacationhome.R;
 import com.example.vacationhome.activity.MainActivity;
 import com.example.vacationhome.helper.FirebaseHelper;
-import com.example.vacationhome.model.Usuario;
+import com.example.vacationhome.model.User;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edit_email;
@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
             if (!email.isEmpty()) {
                     if (!pass.isEmpty()) {
                         progressBar.setVisibility(View.VISIBLE);
-                        Usuario usuario = new Usuario();
-                        usuario.setEmail(email);
-                        usuario.setPass(pass);
+                        User user = new User();
+                        user.setEmail(email);
+                        user.setPass(pass);
 
 
 
