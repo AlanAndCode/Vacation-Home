@@ -1,0 +1,94 @@
+package com.example.vacationhome.model;
+
+import com.example.vacationhome.helper.FirebaseHelper;
+import com.google.firebase.database.DatabaseReference;
+
+public class Ad {
+
+    private String id;
+    private String title;
+    private String description;
+    private String Bedrooms;
+    private String Bathroom;
+    private String garage;
+    private boolean status;
+    private String urlImage;
+
+    public Ad() {
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference();
+        this.setId(reference.push().getKey());
+    }
+
+
+    public void SaveAD(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("Anuncios")
+                .child(FirebaseHelper.getIdFirebase())
+                .child(this.id);
+        reference.setValue(this);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBedrooms() {
+        return Bedrooms;
+    }
+
+    public void setBedrooms(String bedrooms) {
+        Bedrooms = bedrooms;
+    }
+
+    public String getBathroom() {
+        return Bathroom;
+    }
+
+    public void setBathroom(String bathroom) {
+        Bathroom = bathroom;
+    }
+
+    public String getGarage() {
+        return garage;
+    }
+
+    public void setGarage(String garage) {
+        this.garage = garage;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImagem) {
+        this.urlImage = urlImage;
+    }
+}
