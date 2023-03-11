@@ -8,17 +8,20 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        app:CornerRadius="5dp"
-        android:layout_margin="16dp"
+        app:cornerRadius="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
 
             <ImageView
@@ -26,9 +29,9 @@
                 android:layout_width="130dp"
                 android:layout_height="match_parent"
                 android:background="@color/layoutColor"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -45,31 +48,31 @@
                 tools:text="Vende-se casa na praia" />
 
             <TextView
-                android:id="@+id/text_mensage"
+                android:id="@+id/text_description"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/textColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_ad"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_title"
                 tools:text="casa muito nova frente para praia, localizada ao de varios locais" />
 
             <TextView
-                android:id="@+id/text_time"
-                android:layout_width="wrap_content"
+                android:id="@+id/text_data"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="#ED0606"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/image_ad"
-                app:layout_constraintTop_toBottomOf="@+id/text_mensage"
+                app:layout_constraintTop_toBottomOf="@+id/text_description"
                 tools:text="10/03/2023 at 01:00 AM" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
