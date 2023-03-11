@@ -2,8 +2,11 @@ package com.example.vacationhome.model;
 
 import com.example.vacationhome.helper.FirebaseHelper;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
 
-public class Ad {
+import java.io.Serializable;
+
+public class Ad implements Serializable {
 
     private String id;
     private String title;
@@ -20,12 +23,27 @@ public class Ad {
     }
 
 
-    public void SaveAD(){
+    public void saveAD(){
         DatabaseReference reference = FirebaseHelper.getDatabaseReference()
                 .child("Anuncios")
                 .child(FirebaseHelper.getIdFirebase())
                 .child(this.id);
         reference.setValue(this);
+    }
+    public void deleteAD(){
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("Anuncios")
+                .child(FirebaseHelper.getIdFirebase())
+                .child(this.id);
+        reference.removeValue().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                StorageReference storageReference = FirebaseHelper.getStorageReference()
+                        .child("imagens")
+                        .child("anuncios")
+                        .child(this.getId() + ".jpeg");
+                storageReference.delete();
+            }
+        });
     }
 
     public String getId() {
@@ -88,7 +106,7 @@ public class Ad {
         return urlImage;
     }
 
-    public void setUrlImage(String urlImagem) {
+    public void setUrlImage(String urlImage) {
         this.urlImage = urlImage;
     }
 }
