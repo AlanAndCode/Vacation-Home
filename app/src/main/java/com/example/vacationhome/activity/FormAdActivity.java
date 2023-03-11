@@ -49,7 +49,7 @@ public class FormAdActivity extends AppCompatActivity {
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_form_anuncio);
+        setContentView(R.layout.activity_form_ad);
 
         iniciaComponentes();
 
