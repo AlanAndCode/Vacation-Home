@@ -43,7 +43,7 @@
                 app:cardCornerRadius="5dp">
 
                 <ImageView
-                    android:id="@+id/edit_image"
+                    android:id="@+id/image_ad"
                     android:onClick="verifYPermissionGallery"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
