@@ -73,7 +73,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/image_ad"
                 app:layout_constraintTop_toBottomOf="@+id/text_description"
-                tools:text="10/03/2023 at 01:00 AM" />
+                android:text="10/03/2023 at 01:00 AM" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
