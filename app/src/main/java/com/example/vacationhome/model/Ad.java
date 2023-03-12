@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Ad implements Serializable {
 
     private String id;
+    private String idUser;
     private String title;
     private String description;
     private String Bedrooms;
@@ -52,6 +53,14 @@ public class Ad implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public String getTitle() {

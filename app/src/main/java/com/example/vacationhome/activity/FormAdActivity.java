@@ -158,6 +158,7 @@ public class FormAdActivity extends AppCompatActivity {
 
 
                        if(ad == null) ad = new Ad();
+                       ad.setIdUser(FirebaseHelper.getIdFirebase());
                         ad.setTitle(title);
                         ad.setDescription(description);
                         ad.setBedrooms(Bedrooms);
