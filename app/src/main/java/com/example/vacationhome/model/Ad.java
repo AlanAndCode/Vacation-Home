@@ -24,18 +24,25 @@ public class Ad implements Serializable {
     }
 
 
-    public void saveAD(){
+    public void save(){
         DatabaseReference reference = FirebaseHelper.getDatabaseReference()
                 .child("Anuncios")
                 .child(FirebaseHelper.getIdFirebase())
-                .child(this.id);
+                .child(this.getId());
         reference.setValue(this);
+
+        DatabaseReference adPublic = FirebaseHelper.getDatabaseReference()
+                .child("Anuncios_publicos")
+                .child(this.getId());
+        adPublic.setValue(this);
+
+
     }
     public void deleteAD(){
         DatabaseReference reference = FirebaseHelper.getDatabaseReference()
                 .child("Anuncios")
                 .child(FirebaseHelper.getIdFirebase())
-                .child(this.id);
+                .child(this.getId());
         reference.removeValue().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 StorageReference storageReference = FirebaseHelper.getStorageReference()
@@ -45,6 +52,7 @@ public class Ad implements Serializable {
                 storageReference.delete();
             }
         });
+
     }
 
     public String getId() {
