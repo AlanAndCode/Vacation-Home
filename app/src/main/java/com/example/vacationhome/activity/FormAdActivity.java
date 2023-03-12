@@ -128,7 +128,7 @@ public class FormAdActivity extends AppCompatActivity {
             String urlImage = task.getResult().toString();
 
            ad.setUrlImage(task.getResult().toString());
-            ad.saveAD();
+            ad.save();
 
             finish();
 
@@ -158,7 +158,7 @@ public class FormAdActivity extends AppCompatActivity {
 
 
                        if(ad == null) ad = new Ad();
-                       ad.setIdUser(FirebaseHelper.getIdFirebase());
+                        ad.setIdUser(FirebaseHelper.getIdFirebase());
                         ad.setTitle(title);
                         ad.setDescription(description);
                         ad.setBedrooms(Bedrooms);
@@ -170,7 +170,7 @@ public class FormAdActivity extends AppCompatActivity {
                         saveImage();
                         }else{
                             if(ad.getUrlImage() != null){
-                                ad.saveAD();
+                                ad.save();
                             }else {
                                 Toast.makeText(this, "Select any Image", Toast.LENGTH_SHORT).show();
                             }
@@ -207,7 +207,7 @@ public class FormAdActivity extends AppCompatActivity {
         edit_Bathroom = findViewById(R.id.edit_Bathroom);
         edit_garage = findViewById(R.id.edit_Garage);
         edit_check = findViewById(R.id.edit_check);
-        edit_image = findViewById(R.id.edit_image);
+        edit_image = findViewById(R.id.image_ad);
         progressBar = findViewById(R.id.progressBar);
 
         TextView text_title = findViewById(R.id.text_title);
