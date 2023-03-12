@@ -102,8 +102,8 @@ private AdapterAd adapterAd;
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                anuncioList.clear();
                 if(snapshot.exists()){
-                    anuncioList.clear();
                     for(DataSnapshot snap : snapshot.getChildren()) {
                         Ad anuncio = snap.getValue(Ad.class);
                         anuncioList.add(anuncio);
