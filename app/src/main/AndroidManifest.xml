@@ -14,13 +14,16 @@
         android:theme="@style/Theme.VacationHome"
         tools:targetApi="31">
         <activity
-            android:name=".MyAccountActivity"
+            android:name=".activity.DetailAdActivity"
             android:exported="false" />
         <activity
-            android:name=".MenuMyAdActivity"
+            android:name=".activity.MyAccountActivity"
             android:exported="false" />
         <activity
-            android:name=".FilterActivity"
+            android:name=".activity.MenuMyAdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FilterActivity"
             android:exported="false" />
         <activity
             android:name=".activity.auth.LoginActivity"
@@ -32,7 +35,10 @@
             android:name=".activity.auth.CCActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.FormAnuncioActivity"
+            android:name=".activity.FormAdActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,9 +46,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:exported="true" />
     </application>
 
 </manifest>
