@@ -1,6 +1,7 @@
 package com.example.vacationhome.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.example.vacationhome.activity.auth.LoginActivity;
 import com.example.vacationhome.adapter.AdapterAd;
 import com.example.vacationhome.helper.FirebaseHelper;
 import com.example.vacationhome.model.Ad;
+import com.example.vacationhome.model.Filtro;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,13 +31,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterAd.OnClick {
-
+    private final int REQUEST_FILTRO = 100;
     private RecyclerView rv_ad;
 private ImageButton bt_menu;
 private AdapterAd adapterAd;
     private TextView text_info;
     private ProgressBar progressBar;
     private List<Ad> anuncioList = new ArrayList<>();
+
+    private Filtro filtro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,48 @@ private AdapterAd adapterAd;
                 });
 
     }
+    private void recuperaAnunciosFiltro() {
+        DatabaseReference reference = FirebaseHelper.getDatabaseReference()
+                .child("Anuncios_publicos");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                anuncioList.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        Ad ad = snap.getValue(Ad.class);
+
+                        int bedroom = Integer.parseInt(ad.getBedrooms());
+                        int bathroom = Integer.parseInt(ad.getBathroom());
+                        int garage = Integer.parseInt(ad.getGarage());
+
+                        if (bedroom >= filtro.getQtdBedroom() &&
+                                bathroom >= filtro.getQtdBathroom() &&
+                                garage >= filtro.getQtdGarage()) {
+                            anuncioList.add(ad);
+                        }
+
+                    }
+                }
+
+                if (anuncioList.size() == 0) {
+                    text_info.setText("Nenhum anúncio encontrado.");
+                } else {
+                    text_info.setText("");
+                }
+
+                progressBar.setVisibility(View.GONE);
+                Collections.reverse(anuncioList);
+                adapterAd.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 private void configCliques(){
         bt_menu.setOnClickListener(view -> {
             PopupMenu popupMenu = new PopupMenu(this, bt_menu);
@@ -96,8 +142,10 @@ private void configCliques(){
 
             popupMenu.setOnMenuItemClickListener(menuItem -> {
 
-                if(menuItem.getItemId() == R.id.bt_menu){
-startActivity(new Intent(this, FilterActivity.class));
+                if(menuItem.getItemId() == R.id.menu_filter){
+                    Intent intent = new Intent(this, FilterActivity.class);
+                    intent.putExtra("filtro", filtro);
+                    startActivityForResult(intent, REQUEST_FILTRO);
                 }else if((menuItem.getItemId() == R.id.menu_my_ad)){
                     if(FirebaseHelper.getAutenticado()){
                         startActivity(new Intent(this, MenuMyAdActivity.class));
@@ -138,6 +186,19 @@ private void iniciaComponentes(){
     text_info = findViewById(R.id.text_info);
     progressBar = findViewById(R.id.progressBar);
 }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_FILTRO) {
+                filtro = (Filtro) data.getSerializableExtra("filtro");
+                recuperaAnunciosFiltro();
+            }
+        }else{
+            recuperarAnuncios();
+        }
+    }
 
     @Override
     public void OnClickListener(Ad ad) {
